@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-    <title>!!!YEAR!!! US Energy Consumption</title> <!-- change title to include year (e.g. 1999 US Energy Consumption) -->
+    <title>!!!STATE_NAME!!! Energy Consumption</title> <!-- change title to include year (e.g. 1999 US Energy Consumption) -->
     <link rel="stylesheet" href="/css/style.css">
     <script src="https://cdn.anychart.com/releases/8.7.0/js/anychart-core.min.js"></script>
     <script src="https://cdn.anychart.com/releases/8.7.0/js/anychart-cartesian.min.js"></script>
@@ -11,12 +11,11 @@
     <script type="application/javascript" src="/scripts/statevis.js"></script>
     <script type="application/javascript">
         // `state` and arrays of consumption per year --> set these variables equal to appropriate value
-        var state;
-        var coal_counts;  // e.g. [1234, 2567, ...]
-        var natural_gas_counts;
-        var nuclear_counts;
-        var petroleum_counts;
-        var renewable_counts;
+        
+		//var state = !!!STATE_NAME!!!;
+		var state = '!!!STATE_NAME!!!';
+		
+		!!!STATE_DATA!!!
     </script>
 </head>
 <body onload="Init()">
@@ -45,11 +44,11 @@
 
             <div>
                 <div class="left">
-                    <h2>Yearly Snapshot</h2> <!-- change header to include state (e.g. Minnesota Yearly Snaphot) -->
+                    <h2>!!!STATE_NAME!!! Yearly Snapshot</h2> <!-- change header to include state (e.g. Minnesota Yearly Snaphot) -->
                 </div>
                 <div class="right">
-                    <a class="prev_next" href="">XX</a> <!-- change XX to prev state, link to WY if state is AK -->
-                    <a class="prev_next" href="">XX</a> <!-- change XX to next state, link to AK if state is WY -->
+                    <a class="prev_next" href="/state/!!!PREV_STATE!!!/">!!!PREV_STATE!!!</a> <!-- change XX to prev state, link to WY if state is AK -->
+                    <a class="prev_next" href="/state/!!!NEXT_STATE!!!/">!!!NEXT_STATE!!!</a> <!-- change XX to next state, link to AK if state is WY -->
                 </div>
                 <div class="spacer1"></div>
                 <div class="left">
@@ -78,7 +77,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- Data to be inserted here -->
+                    !!!STATE_TABLE_DATA!!!
                 </tbody>
             </table>
             </div>
