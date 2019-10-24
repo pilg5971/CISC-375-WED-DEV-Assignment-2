@@ -3,23 +3,23 @@
     "version": "0.0.0",
     "description": "Dynamic Web Server using Node JS",
     "author": {
-        "name": "",
-        "email": ""
+        "name": "Trevor Pilgrim",
+        "email": "pilg5971@stthomas.edu"
     },
     "contributors": [
         {
-            "name": "",
-            "email": ""
+            "name": "Andrew Bates",
+            "email": "bate2807@stthomas.edu"
         },
         {
-            "name": "",
-            "email": ""
+            "name": "Trevor Pilgrim",
+            "email": "pilg5971@stthomas.edu"
         }
     ],
     "main": "server.js",
     "repository": {
         "type": "git",
-        "url": ""
+        "url": "https://github.com/pilg5971/CISC-375-WED-DEV-Assignment-2"
     },
     "dependencies": {
         "express": "^4.17.1",

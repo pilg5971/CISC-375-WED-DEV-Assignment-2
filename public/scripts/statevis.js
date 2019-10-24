@@ -1,9 +1,11 @@
 anychart.onDocumentReady(() => {
+	
     var coal_data = [];
     var natural_gas_data = [];
     var nuclear_data = [];
     var petroleum_data = [];
     var renewable_data = [];
+	console.log('windows coal counts is ' + window.coal_counts);
     for (let i = 0; i <= (2017 - 1960); i++) {
         if (Array.isArray(window.coal_counts) && window.coal_counts.length > i) {
             coal_data.push([i + 1960, window.coal_counts[i]]);
