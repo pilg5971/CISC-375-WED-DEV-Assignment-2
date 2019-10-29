@@ -5,7 +5,6 @@ anychart.onDocumentReady(() => {
     var nuclear_data = [];
     var petroleum_data = [];
     var renewable_data = [];
-	console.log('windows coal counts is ' + window.coal_counts);
     for (let i = 0; i <= (2017 - 1960); i++) {
         if (Array.isArray(window.coal_counts) && window.coal_counts.length > i) {
             coal_data.push([i + 1960, window.coal_counts[i]]);
@@ -32,7 +31,7 @@ anychart.onDocumentReady(() => {
             petroleum_data.push([i + 1960, 1]);
         }
         if (Array.isArray(window.renewable_counts) && window.renewable_counts.length > i) {
-            renewable_data.push([i + 1960, window.coal_counts[i]]);
+            renewable_data.push([i + 1960, window.renewable_counts[i]]);
         }
         else {
             renewable_data.push([i + 1960, 1]);
