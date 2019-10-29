@@ -512,6 +512,7 @@ app.get('/energy-type/:selected_energy_type', (req, res) => {
     ReadFile(path.join(template_dir, 'energy.html')).then((template) => {
         let response = template;
 		response = response.toString();
+		console.log("THE SELECTED ENERGY TYPE IS " + req.params.selected_energy_type);
 		
 		var energys = ['coal', 'natural_gas', 'nuclear', 'petroleum', 'renewable'];
 		
@@ -522,7 +523,7 @@ app.get('/energy-type/:selected_energy_type', (req, res) => {
 		}
 		
 		var currentEnergy = energys.indexOf(req.params.selected_energy_type);
-		console.log("INDEX OF STATE = " + currentEnergy);
+		console.log("INDEX OF ENERGY = " + currentEnergy);
 		var prevEnergy;
 		var nextEnergy;
 		
@@ -531,7 +532,7 @@ app.get('/energy-type/:selected_energy_type', (req, res) => {
 		if (currentEnergy == 0) {
 			console.log("IN THE IF STATMEET4r5667M@!");
 			prevEnergy = energys[4];
-			console.log("PREVSTATE = " + prevEnergy);
+			console.log("PREVENERGY = " + prevEnergy);
 		}
 		else {
 			prevEnergy = energys[(currentEnergy - 1)];
@@ -543,8 +544,8 @@ app.get('/energy-type/:selected_energy_type', (req, res) => {
 			response = response.replace(/!!!ENERGY_TYPE!!!/g, req.params.selected_energy_type.charAt(0).toUpperCase() + req.params.selected_energy_type.slice(1));
 			response = response.replace(/!!!ENERGY_COUNTS!!!/g, data[0]);
 			response = response.replace(/!!!ENERGY_COUNTS_TABLE_DATA!!!/g, data[1]);
-			response = response.replace(/!!!PREV_ENERGY!!!/g, prevEnergy.charAt(0).toUpperCase() + prevEnergy.slice(1));
-			response = response.replace(/!!!NEXT_ENERGY!!!/g, nextEnergy.charAt(0).toUpperCase() + nextEnergy.slice(1));
+			response = response.replace(/!!!PREV_ENERGY!!!/g, prevEnergy);
+			response = response.replace(/!!!NEXT_ENERGY!!!/g, nextEnergy);
 			WriteHtml(res, response);
 		});
     }).catch((err) => {
