@@ -75,7 +75,7 @@ function GetYearData(inputYear) {
 				throw err;
 			}
 			
-			for(let i = 0; i < 50; i++){
+			for(let i = 0; i < 51; i++){
 				c += '<tr>';
 				for(var key in rows[i]){
 					c += '<td>' + rows[i][key] + '</td>\n';
@@ -123,30 +123,6 @@ function GetStateTotals(inputState) {
 			if(err) {
 				throw err;
 			}
-			/*
-			for(let i = 0; i < 5; i++){
-				if (i == 0) {
-					c += 'var coal_counts = [';
-				}
-				else if (i == 1) {
-					c += 'var natural_gas_counts = [';
-				}
-				else if (i == 2) {
-					c += 'var nuclear_counts = [';
-				}
-				else if (i == 3) {
-					c += 'var petroleum_counts = [';
-				}
-				else if (i == 4) {
-					c += 'var renewable_counts = [';
-				}
-				for(var key in rows[i]){
-					c += rows[i][key] + ', ';
-				}
-				c = c.substring(0, c.length - 2);
-				c += '];\n';
-			}
-			*/
 			
 			var c = '';
 			
@@ -219,9 +195,12 @@ function GetEnergyData(energy_type) {
 		else if (energy_type == 'renewable') {
 			sql = "SELECT year, state_abbreviation, renewable FROM Consumption ORDER BY state_abbreviation, year";
 		}
+		else {
+			throw err;
+		}
 		db.all(sql, (err, rows) => {
 		
-			if(err) {
+			if(err) { //this is giving the error
 				throw err;
 			}
 			var energyDict = new Object();
@@ -270,6 +249,9 @@ function GetEnergyTableData(energy_type) {
 		}
 		else if (energy_type == 'renewable') {
 			sql = "SELECT year, state_abbreviation, renewable FROM Consumption ORDER BY state_abbreviation, year";
+		}
+		else {
+			throw err;
 		}
 		db.all(sql, (err, rows) => {
 		
@@ -363,10 +345,7 @@ function IndexTableData() {
 				c += '<td>' + rows[state]["nuclear"] + '</td>\n' + '<td>' + rows[state]["petroleum"] + '</td>\n' + '<td>' + rows[state]["renewable"] + '</td></tr>';
 				
 			}
-			/*
-			c += '<tr><td>' + rows[0]["state_abbrevation"] + '</td>' + '<td>' + [rows[0]["coalCount"] + '</td>\n' + '<td>' + rows[0]["gasCount"] + '</td>\n';
-			c += '<td>' + rows[0]["nuclearCount"] + '</td>\n' + '<td>' + rows[0]["petroleumCount"] + '</td>\n' + '<td>' + rows[0]["renewableCount"] + '</td></tr>';
-			*/
+			
 			resolve(c);
 			
 		});
@@ -464,32 +443,25 @@ app.get('/state/:selected_state', (req, res) => {
 		'UT', 'VA', 'VT', 'WA', 'WI', 'WV', 'WY'];
 		
 		if (states.includes(req.params.selected_state) == false) {
+			
 			res.writeHead(404, {'Content-Type': 'text/plain'});
 			res.write('ERROR 404:  The requested state ' + req.params.selected_state + ' cannot be found in our database');
 			res.end();
 		}
-	
+		
 		
 		var currentState = states.indexOf(req.params.selected_state);
-		console.log("INDEX OF STATE = " + currentState);
 		var prevState;
 		var nextState;
 		
 		nextState = states[(currentState + 1) % 51];
 		
 		if (currentState == 0) {
-			console.log("IN THE IF STATMEETM@!");
 			prevState = states[50];
-			console.log("PREVSTATE = " + prevState);
 		}
 		else {
 			prevState = states[(currentState - 1)];
 		}
-		
-		console.log(nextState);
-		console.log(prevState);
-		
-
 		
 		Promise.all([StateData(req.params.selected_state), GetStateTotals(req.params.selected_state), GetStateName(req.params.selected_state)]).then((data) => {
 			
@@ -512,7 +484,6 @@ app.get('/energy-type/:selected_energy_type', (req, res) => {
     ReadFile(path.join(template_dir, 'energy.html')).then((template) => {
         let response = template;
 		response = response.toString();
-		console.log("THE SELECTED ENERGY TYPE IS " + req.params.selected_energy_type);
 		
 		var energys = ['coal', 'natural_gas', 'nuclear', 'petroleum', 'renewable'];
 		
@@ -521,23 +492,18 @@ app.get('/energy-type/:selected_energy_type', (req, res) => {
 			res.write('ERROR 404:  The requested energy type ' + req.params.selected_energy_type + ' cannot be found in our database');
 			res.end();
 		}
-		
 		var currentEnergy = energys.indexOf(req.params.selected_energy_type);
-		console.log("INDEX OF ENERGY = " + currentEnergy);
 		var prevEnergy;
 		var nextEnergy;
 		
 		nextEnergy = energys[(currentEnergy + 1) % 5];
 		
 		if (currentEnergy == 0) {
-			console.log("IN THE IF STATMEET4r5667M@!");
 			prevEnergy = energys[4];
-			console.log("PREVENERGY = " + prevEnergy);
 		}
 		else {
 			prevEnergy = energys[(currentEnergy - 1)];
 		}
-		
 		
         Promise.all([GetEnergyData(req.params.selected_energy_type), GetEnergyTableData(req.params.selected_energy_type)]).then((data) => {
 			
