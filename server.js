@@ -403,15 +403,17 @@ app.get('/', (req, res) => {
 // GET request handler for '/year/*'
 app.get('/year/:selected_year', (req, res) => {
 	
-	if (Number(req.params.selected_year) < 1960 || Number(req.params.selected_year) > 2017) {
-		res.writeHead(404, {'Content-Type': 'text/plain'});
-		res.write('ERROR 404:  The requested year ' + req.params.selected_year + ' cannot be found in our database');
-		res.end();
-	}
+	
 	
     ReadFile(path.join(template_dir, 'year.html')).then((template) => {
         let response = template;
 		response = response.toString();
+		
+		if (Number(req.params.selected_year) < 1960 || Number(req.params.selected_year) > 2017 || isNaN(req.params.selected_year)) {
+			res.writeHead(404, {'Content-Type': 'text/plain'});
+			res.write('ERROR 404:  The requested year ' + req.params.selected_year + ' cannot be found in our database');
+			res.end();
+		}
 		
 		var currentYear = Number(req.params.selected_year);
 		var prevYear;
@@ -452,11 +454,6 @@ app.get('/year/:selected_year', (req, res) => {
 // GET request handler for '/state/*'
 app.get('/state/:selected_state', (req, res) => {
 	
-	if (req.params.selected_year < 1960 || req.params.selected_year > 2017) {
-		res.writeHead(404, {'Content-Type': 'text/plain'});
-		res.write('ERROR 404:  The requested year ' + req.params.selected_year + ' cannot be found in our database');
-		res.end();
-	}
 	
     ReadFile(path.join(template_dir, 'state.html')).then((template) => {
         let response = template;
@@ -466,6 +463,12 @@ app.get('/state/:selected_state', (req, res) => {
 		'NH', 'NJ', 'NM', 'NV', 'NY', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX',
 		'UT', 'VA', 'VT', 'WA', 'WI', 'WV', 'WY'];
 		
+		if (states.includes(req.params.selected_state) == false) {
+			res.writeHead(404, {'Content-Type': 'text/plain'});
+			res.write('ERROR 404:  The requested state ' + req.params.selected_state + ' cannot be found in our database');
+			res.end();
+		}
+	
 		
 		var currentState = states.indexOf(req.params.selected_state);
 		console.log("INDEX OF STATE = " + currentState);
@@ -511,6 +514,12 @@ app.get('/energy-type/:selected_energy_type', (req, res) => {
 		response = response.toString();
 		
 		var energys = ['coal', 'natural_gas', 'nuclear', 'petroleum', 'renewable'];
+		
+		if (energys.includes(req.params.selected_energy_type) == false || !isNaN(req.params.selected_energy_type)) {
+			res.writeHead(404, {'Content-Type': 'text/plain'});
+			res.write('ERROR 404:  The requested energy type ' + req.params.selected_energy_type + ' cannot be found in our database');
+			res.end();
+		}
 		
 		var currentEnergy = energys.indexOf(req.params.selected_energy_type);
 		console.log("INDEX OF STATE = " + currentEnergy);
