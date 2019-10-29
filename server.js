@@ -280,14 +280,19 @@ function GetEnergyTableData(energy_type) {
 			}
 			
 			var c = "";
+			var total = 0;
 			
 			for (var i = 0; i < 58; i++) {
+				total = 0;
 				c += '<tr>';
 				c += '<td>' + (1960 + i) + '</td>\n';
 				for (var key in energyDict) {
 					c += '<td>' + energyDict[key][i] + '</td>\n';
+					total += energyDict[key][i];
 				}
+				c += '<td>' + total + '</td>\n';
 				c += '</tr>\n';
+				
 			}
 			
 			resolve(c);
